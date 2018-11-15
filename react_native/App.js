@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView, Image, ActivityIndicator } from 'react-native';
-import { Button, ListItem, Avatar, Header, Badge, Card, Icon } from 'react-native-elements';
+import { Button, ListItem, Avatar, Header, Badge, Card, Icon, Divider } from 'react-native-elements';
 import { createStackNavigator } from 'react-navigation';
 
 
@@ -22,6 +22,7 @@ class ProfileScreen extends React.Component {
     return(      
       <View style={{flex: 2, flexDirection: "column"}}>
         <Image source={{uri: face}} style={{flex: 1}}/>
+        <Divider style={{backgroundColor : "black", padding: 2}}/>
         <View style={{flex: 1, flexDirection: "row", justifyContent: "center"}}>
           <Text style={[styles.big]}>{name}</Text>
         </View>
@@ -51,7 +52,7 @@ class HomeScreen extends React.Component {
   };
 
   componentDidMount() {
-    this.makeRemoteRequest(50);
+    this.makeRemoteRequest(10);
   }
 
   makeRemoteRequest = (n) => {
@@ -98,22 +99,20 @@ class HomeScreen extends React.Component {
 
       <ScrollView>
         {
-          this.state.data.map((l, i) => (
-            <ListItem
-              key={i}
-              avatar={<Avatar
-                size="small"
-                rounded
-                source={{uri: l.picture.thumbnail}}
-                onPress={() => console.log("Works!")}
-                activeOpacity={1.0}
-              />}
+          this.state.data.map((l) => (
+            <Card
               title={l.name.first + " " + l.name.last}
-              titleStyle={{ color: 'black', fontWeight: 'bold' }}
-              subtitle={l.email}
-              onPress={() => navigate('Profile', { name: l.name.first, face: l.picture.large })}
-              badge={{ value: l.dob.age, textStyle: { color: 'orange' }, containerStyle: { marginTop: 0 } }}
-            />
+              image={{uri: l.picture.large, resizeMode:'cover'}}>
+              <Text style={{marginBottom: 10}}>
+                The idea with React Native Elements is more about component structure than actual design.
+              </Text>
+              <Button
+                icon={<Icon name='code' color='#ffffff' />}
+                backgroundColor='#03A9F4'
+                buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+                onPress={() => navigate('Profile', { name: l.name.first, face: l.picture.large })}
+                title='Enter profile' />
+            </Card>
           ))
         }
       </ScrollView>
@@ -122,7 +121,7 @@ class HomeScreen extends React.Component {
   }
 }
 
-
+/*
 const users = [
   {
     name: 'Ana Peña',
@@ -140,7 +139,7 @@ const users = [
     subtitle: 'Director de arte'
   },
 ]
-
+*/
 
 const styles = StyleSheet.create({
   container: {
