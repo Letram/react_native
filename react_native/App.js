@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView, Image, ActivityIndicator } from 'react-native';
-import { Button, ListItem, Avatar, Header, Badge, Card, Icon, Divider } from 'react-native-elements';
+import { Button, ListItem, Avatar, Header, Badge, Card, Icon, Divider, FormInput, FormLabel, FormValidationMessage } from 'react-native-elements';
 import { createStackNavigator } from 'react-navigation';
 
 
@@ -30,7 +30,31 @@ class ProfileScreen extends React.Component {
     );
   }
 }
+//************************************** ADD FORM *****/
+class AddFormScreen extends React.Component{
+  static navigationOptions = {
+    title:'AddForm',
+    headerBackTitle: "Atrás"
+};
 
+  constructor(props){super(props)}
+  render(){
+    const { navigate } = this.props.navigation;
+
+    return <View style={{flex:1, padding:20}}>
+      <FormLabel>Name:</FormLabel>
+      <FormInput placeholder="Enter text..."></FormInput>
+      <FormValidationMessage>{'This field is required'}</FormValidationMessage>
+      <FormLabel>Lastname:</FormLabel>
+      <FormInput placeholder="Enter text..."></FormInput>
+      <FormValidationMessage>{'This field is required'}</FormValidationMessage>
+      <FormLabel>Age:</FormLabel>
+      <FormInput placeholder="Enter text..."></FormInput>
+      <FormValidationMessage>{'This field is required'}</FormValidationMessage>
+      <Button title = "ADD PERSON"/>
+    </View>
+  }
+}
 //************************************** HOME *********/
 
 class HomeScreen extends React.Component {
@@ -85,8 +109,6 @@ class HomeScreen extends React.Component {
       )
     }
 
-    console.log(this.state.data);
-
     return (
       <View style={{flex: 1, flexDirection: "column"}}>
       
@@ -116,30 +138,16 @@ class HomeScreen extends React.Component {
           ))
         }
       </ScrollView>
+      <Button
+        raised
+        backgroundColor={'orange'}
+        onPress={() => navigate('AddForm') }
+        icon={{name: 'cached'}}
+        title='ADD PPL' />
       </View>
     );
   }
 }
-
-/*
-const users = [
-  {
-    name: 'Ana Peña',
-    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-    subtitle: 'Presidenta'
-  },
-  {
-    name: 'Juan Pérez',
-    avatar_url: 'https:\/\/randomuser.me\/api\/portraits\/women\/68.jpg',
-    subtitle: 'Vicedirector'
-  },
-  {
-    name: 'Antonio Martínez',
-    avatar_url: 'https://randomuser.me/api/portraits/women/44.jpg',
-    subtitle: 'Director de arte'
-  },
-]
-*/
 
 const styles = StyleSheet.create({
   container: {
@@ -158,6 +166,7 @@ const styles = StyleSheet.create({
 const App = createStackNavigator({
     Home: { screen: HomeScreen },
     Profile: { screen: ProfileScreen },
+    AddForm: { screen: AddFormScreen },
   }, 
   {
     initialRouteName: 'Home',
