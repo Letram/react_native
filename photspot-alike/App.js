@@ -1,13 +1,29 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { Camera, MapView, Location, Permissions} from 'expo';
-
+import { Camera, Permissions, MapView} from 'expo';
+import {Marker} from 'react-native-maps';
 export default class App extends React.Component {
   state = {
     hasCameraPermission: null,
     type: Camera.Constants.Type.back,
+    region: {
+      latitude: 37.78825,
+      longitude: -122.4324,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    },
+    markers: [{
+      title: 'FINISH',
+      description: 'You have found me!',
+      coordinates: {
+       latitude: 14.548100,
+       longitude: 121.049906
+      }, 
+   }]
   };
-
+  onRegionChange = (region) => {
+    this.setState({ region });
+  };
   async componentDidMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     const { locationStatus } = await Permissions.askAsync(Permissions.LOCATION);
@@ -15,19 +31,20 @@ export default class App extends React.Component {
     this.setState({ 
       hasCameraPermission: status === 'granted',
       hasLocationPermission: locationStatus === 'granted',
-      location: {
-        latitude: 0,
-        longitude: 0
-      }
    });
-   let posLocation = await Location.getCurrentPositionAsync({});
-   console.log(this.state.location);
-   this.setState({location: {
-      latitude: posLocation.coords.latitude,
-      longitude: posLocation.coords.longitude
-   }});
-   console.log(this.state.location);
   }
+  takePic = ()=>{
+      navigator.geolocation.getCurrentPosition((pos) => {
+        console.log(pos);
+        this.setState({region:{
+          latitude: pos.coords.latitude,
+          longitude: pos.coords.longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421
+        }}); 
+        console.log(this.state.region); 
+      });
+  };
 
   render() {
     const { hasCameraPermission } = this.state;
@@ -70,9 +87,7 @@ export default class App extends React.Component {
                   alignSelf: 'flex-end',
                   alignItems: 'center',
                 }}
-                onPress={() => {
-                  console.log("yay");
-                }}>
+                onPress={this.takePic}>
                 <Text
                   style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
                   {' '}Take Picture{' '}
@@ -80,15 +95,11 @@ export default class App extends React.Component {
               </TouchableOpacity>
             </View>
           </Camera>
-          <MapView
-            style={{ flex: 1 }}
-            initialRegion={{
-              latitude: this.state.location.latitude,
-              longitude: this.state.location.longitude,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            }}
-          />
+                <MapView
+                  style={{ flex: 1 }}
+                  region={this.state.region}
+                >
+                </MapView>
         </View>
       );
     }
