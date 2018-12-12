@@ -16,6 +16,10 @@ export default class Home extends React.Component{
                 {
                     title: "Todo1",
                     body: "Cuerpo del amigo"
+                },
+                {
+                    title: "Todo2",
+                    body: "Cuerpo del amigo"
                 }
             ]
         };
@@ -46,10 +50,14 @@ export default class Home extends React.Component{
                         <Card
                             key={index}
                         >
-                        <Text style={{marginBottom: 10}}>
-                            {todo.title}
-                        </Text>
-                        <Button title='Enter Details' onPress={(todo) => (navigate('Details'))}/>
+                            <Text style={{marginBottom: 10}}
+                                onPress={() => (navigate('Details', {
+                                    title: todo.title,
+                                    body: todo.body
+                                  }))}
+                            >
+                                {todo.title}
+                            </Text>
                         </Card>
                     ))
                 }

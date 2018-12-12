@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
+import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
 
 import Home from './Home';
 import Details from './Details';
@@ -12,20 +13,27 @@ export default class Edit extends React.Component{
         this.state = {};
     }
     
-      static navigationOptions = {
-        title: 'Edit',
-        headerBackTitle: 'Cancelar'
+    static navigationOptions = ({ navigation }) => {
+        return {
+            headerTitle: 'Atrás',
+            title: 'Edit',
+        };
       };
+
     
       render() {
-        const { navigate } = this.props.navigation;
+        const { navigation } = this.props;
+        const title = navigation.getParam('title', 'No identificado el titulo');
+        const body = navigation.getParam('body', 'No identificado el cuerpo');
 
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <FormLabel>Title</FormLabel>
+            <FormInput value={title}/>
                 <Text>Edit</Text>
                 <Button
                     title="Go to Details"
-                    onPress={() => navigate('Details')}
+                    onPress={() => navigation('Details')}
                 />         
             </View>
         );

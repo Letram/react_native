@@ -1,5 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, View, Button } from 'react-native';
+import {Text, Header} from 'react-native-elements';
+import {NavigationActions} from 'react-navigation';
 
 import Home from './Home';
 import Edit from './Edit';
@@ -11,22 +13,36 @@ export default class Details extends React.Component{
         super(props);
         this.state = {};
     }
-    
-      static navigationOptions = {
-        title: 'Details',
-        headerBackTitle: 'Atrás'
-      };
-      
-    render(){
-        const { navigate } = this.props.navigation;
 
+    static navigationOptions = ({ navigation }) => {
+        return {
+            headerTitle: 'Atrás',
+            title: 'Details',
+            headerRight: (
+                <Text onPress={() => navigation.navigate('Edit', {
+                    title: navigation.getParam('title', 'No identificado el titulo'),
+                    body: navigation.getParam('body', 'No identificado el titulo')
+                    })}>
+                    Edit
+                </Text>
+          ),
+        };
+      };
+
+    render(){
+        const { navigation } = this.props;
+        const title = navigation.getParam('title', 'No identificado el titulo');
+        const body = navigation.getParam('body', 'No identificado el cuerpo');
         return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Text>Details</Text>
-                <Button
-                    title="Go to Edit"
-                    onPress={() => navigate('Edit')}
-                />        
+            <View>
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                    <Text h3>{title}</Text>
+                    <Text>{body}</Text>
+                    <Button
+                        title="Go to Edit"
+                        onPress={() => navigation('Edit')}
+                    />     
+                </View>   
             </View>
         );
     }
