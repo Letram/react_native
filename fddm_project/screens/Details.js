@@ -35,7 +35,7 @@ export default class Details extends React.Component{
         const body = navigation.getParam('body', 'No identificado el cuerpo');
         return (
             <View>
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ flex: 1, flexDirection: 'column' }}>
                     <Text h3>{title}</Text>
                     <Text>{body}</Text>
                     <Button
