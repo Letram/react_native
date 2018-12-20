@@ -19,12 +19,13 @@ export default class Details extends React.Component{
             headerTitle: 'Atrás',
             title: 'Details',
             headerRight: (
-                <Text onPress={() => navigation.navigate('Edit', {
-                    title: navigation.getParam('title', 'No identificado el titulo'),
-                    body: navigation.getParam('body', 'No identificado el titulo')
-                    })}>
-                    Edit
-                </Text>
+                <Button
+                    title='Edit'
+                    onPress={() => navigation.navigate('Edit', {
+                        title: navigation.getParam('title', 'No identificado el titulo'),
+                        body: navigation.getParam('body', 'No identificado el titulo')
+                    })}
+                />
           ),
         };
       };
