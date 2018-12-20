@@ -7,7 +7,8 @@ export const getData = async(value) =>{
         if (result !== null) {
           // We have data!!
             parsed = JSON.parse(result);
-            Promise.resolve(parsed);
+            console.log(parsed);
+            return parsed;
             //this.setState({todos: parsed});
         }
        } catch (error) {
@@ -16,10 +17,17 @@ export const getData = async(value) =>{
        }
 }
 export const setData = async(name, value) =>{
+    console.log({name, value});
     try {
         AsyncStorage.setItem(name, JSON.stringify(value));
     } catch (error) {
         // Error saving data
         console.log(error);
     }
+}
+export const updateData = async(index, collection, value) => {
+    let collectionData = await getData(collection);
+    collectionData[index] = value;
+    setData(collection, collectionData);
+    Promise.resolve();
 }

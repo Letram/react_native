@@ -1,12 +1,13 @@
 import React from 'react';
 import {AsyncStorage, Text, View, ScrollView, TextInput, TouchableOpacity} from 'react-native';
 import {Button, List, ListItem, Card, SearchBar} from 'react-native-elements';
-import {NavigationActions} from 'react-navigation';
+import {NavigationActions, NavigationEvents} from 'react-navigation';
 import Modal from 'react-native-modal';
 import Details from './Details';
 import Edit from './Edit';
 import EditList from './EditList';
 import Themes from './Themes';
+import * as StorageService from '../services/StorageService';
 
 export default class Home extends React.Component{
     constructor(props){
@@ -15,15 +16,26 @@ export default class Home extends React.Component{
             todos: [],
             isModalVisible: false,
             title: '',
-            body: ''
+            body: '',
+            search: '',
+            arrayHolder: []
         };
-        this.arrayholder = this.state.todos;
+        StorageService.getData('todos').then(todos => {
+            this.setState({'todos': todos, 'arrayHolder': todos});
+        });
     }
     
     static navigationOptions = {
         title: 'Home',
     };
       
+    reloadData(){
+        StorageService.getData('todos')
+        .then(todos => {
+            this.setState({'todos': todos});
+        })
+        .catch(e => console.log(e));
+    }
     toggleModal = () =>{
         this.setState({isModalVisible: !this.state.isModalVisible});
     }
@@ -36,11 +48,11 @@ export default class Home extends React.Component{
         currentTodos = this.state.todos;
         currentTodos.push({title: this.state.title, body: this.state.body});
         this.setState({todos: currentTodos, isModalVisible: !this.state.isModalVisible});
-        this.setData();
+        StorageService.setData('todos', this.state.todos);
         this.props.navigation.navigate('Details', {title: todo.title, body: todo.body})
     }
-    searchFilterFunction = text => {    
-        const newData = this.arrayholder.filter(item => {      
+    searchFilterFunction = text => {  
+        const newData = this.state.arrayHolder.filter(item => {      
             const itemData = `${item.title.toUpperCase()}   
             ${item.title.toUpperCase()} ${item.title.toUpperCase()}`;
       
@@ -50,36 +62,11 @@ export default class Home extends React.Component{
         });    
         this.setState({ todos: newData });  
     };
-
-    getData = async() =>{
-        try {
-            const value = await AsyncStorage.getItem('todos');
-            if (value !== null) {
-              // We have data!!
-                parsed = JSON.parse(value);
-                this.setState({todos: parsed});
-            }
-           } catch (error) {
-             // Error retrieving data
-             console.log(error);
-           }
-    }
-    setData = async() =>{
-        try {
-            AsyncStorage.setItem('todos', JSON.stringify(this.state.todos));
-        } catch (error) {
-            // Error saving data
-            console.log(error);
-        }
-    }
-
-    componentDidMount(){
-        this.getData();
-    }
-    componentWillMount(){
-        this.getData();
-    }
     
+    componentWillMount(){
+        this.props.navigation.addListener('didFocus', this.reloadData);
+    }
+
     render() {
         const { navigate } = this.props.navigation;
 
@@ -93,13 +80,15 @@ export default class Home extends React.Component{
             />
                 <ScrollView>
                 {
-                    this.state.todos.map((todo, index) => (
+                    this.state.todos
+                    .map((todo, index) => (
                         <ListItem
                             key={index}
                             title={todo.title}
                             onPress={() => (navigate('Details', {
                                 title: todo.title,
-                                body: todo.body
+                                body: todo.body,
+                                index
                               }))}
                         />
                     ))
@@ -107,7 +96,7 @@ export default class Home extends React.Component{
                 </ScrollView>
                 <Button
                     title="Go to EditList"
-                    onPress={() => navigate('EditList', {todos: this.state.todos})}
+                    onPress={() => navigate('EditList', {todos: this.state.todos, reloadData: this.reloadData.bind(this)})}
                 />
                 <Button
                     title="Go to Themes"

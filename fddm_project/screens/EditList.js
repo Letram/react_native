@@ -5,7 +5,7 @@ import Home from './Home';
 import Details from './Details';
 import Edit from './Edit';
 import Themes from './Themes';
-import {getData, setData} from '../services/StorageService';
+import * as StorageService from '../services/StorageService';
 import {NavigationActions} from 'react-navigation';
 
 export default class EditList extends React.Component{
@@ -29,8 +29,10 @@ export default class EditList extends React.Component{
                         unmarkedTodos = allTodos.filter((_, index) => {
                             return !markedTodos[index];
                         });
-                        console.log(unmarkedTodos);
-                        //setData('todos', unmarkedTodos);
+                        StorageService.setData('todos', unmarkedTodos).then(()=>{
+                            navigation.state.params.reloadData();
+                            navigation.navigate('Home');
+                        });
                     }}
                 />
           ),
