@@ -21,10 +21,13 @@ export default class Details extends React.Component{
             headerRight: (
                 <Button
                     title='Edit'
-                    onPress={() => navigation.navigate('Edit', {
-                        title: navigation.getParam('title', 'No identificado el titulo'),
-                        body: navigation.getParam('body', 'No identificado el titulo')
-                    })}
+                    onPress={() => {
+                        navigation.navigate('Edit', {
+                            title: navigation.getParam('title', 'No identificado el titulo'),
+                            body: navigation.getParam('body', 'No identificado el titulo'),
+                            reloadData: navigation.getParam('reloadData')
+                        })
+                    }}
                 />
           ),
         };
@@ -34,7 +37,6 @@ export default class Details extends React.Component{
         const { navigation } = this.props;
         const title = navigation.getParam('title', 'No identificado el titulo');
         const body = navigation.getParam('body', 'No identificado el cuerpo');
-        const index = navigation.getParam('index', 0);
         return (
             <View>
                 <View style={{ flex: 1, flexDirection: 'column' }}>

@@ -49,7 +49,7 @@ export default class Home extends React.Component{
         currentTodos.push({title: this.state.title, body: this.state.body});
         this.setState({todos: currentTodos, isModalVisible: !this.state.isModalVisible});
         StorageService.setData('todos', this.state.todos);
-        this.props.navigation.navigate('Details', {title: todo.title, body: todo.body})
+        this.props.navigation.navigate('Details', {title: todo.title, body: todo.body, reloadData: this.reloadData.bind(this)})
     }
     searchFilterFunction = text => {  
         const newData = this.state.arrayHolder.filter(item => {      
@@ -88,7 +88,7 @@ export default class Home extends React.Component{
                             onPress={() => (navigate('Details', {
                                 title: todo.title,
                                 body: todo.body,
-                                index
+                                reloadData: this.reloadData.bind(this)
                               }))}
                         />
                     ))

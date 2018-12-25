@@ -9,7 +9,6 @@ export const getData = async(value) =>{
             parsed = JSON.parse(result);
             console.log(parsed);
             return parsed;
-            //this.setState({todos: parsed});
         }
        } catch (error) {
          // Error retrieving data
@@ -25,9 +24,18 @@ export const setData = async(name, value) =>{
         console.log(error);
     }
 }
-export const updateData = async(index, collection, value) => {
+export const updateData = async(initialValue, collection, newValue) => {
     let collectionData = await getData(collection);
-    collectionData[index] = value;
+    let indexAux = -1;
+    for (let index = 0; index < collectionData.length; index++) {
+        const todo = collectionData[index];
+        if(todo.title == initialValue.title && todo.body == initialValue.body){
+            indexAux = index;
+            break;
+        }
+    }
+    console.log(indexAux);
+    collectionData[indexAux] = newValue;
     setData(collection, collectionData);
     Promise.resolve();
 }

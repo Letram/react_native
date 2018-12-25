@@ -27,9 +27,10 @@ export default class Edit extends React.Component{
                 onPress={() => {
                     newTodo = {
                         title: navigation.getParam('titleAux'),
-                        body: navigation.getParam('bodyAux')
+                        body: navigation.getParam('bodyAux'),
                     };
-                    StorageService.updateData(navigation.getParam('index', 0), 'todos', newTodo).then( ()=> {
+                    StorageService.updateData({title: navigation.getParam('title'), body: navigation.getParam('body')}, 'todos', newTodo).then( ()=> {
+                        navigation.state.params.reloadData();
                         navigation.navigate('Details', {title: newTodo.title , body: newTodo.body})
                     });
                 }}
@@ -37,10 +38,6 @@ export default class Edit extends React.Component{
           ),
         };
       };
-
-      getState = () => {
-          return this.state;
-      }
     
       handleChangeTitle = (newTitle) => {
         this.props.navigation.setParams({titleAux: newTitle});
