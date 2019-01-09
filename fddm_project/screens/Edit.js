@@ -2,10 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
 import * as StorageService from '../services/StorageService';
-import Home from './Home';
 import Details from './Details';
-import EditList from './EditList';
-import Themes from './Themes';
 
 export default class Edit extends React.Component{
     constructor(props){

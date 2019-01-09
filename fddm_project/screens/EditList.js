@@ -2,9 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View, Button, ScrollView} from 'react-native';
 import {ListItem, CheckBox} from 'react-native-elements';
 import Home from './Home';
-import Details from './Details';
-import Edit from './Edit';
-import Themes from './Themes';
 import * as StorageService from '../services/StorageService';
 import {NavigationActions} from 'react-navigation';
 
@@ -49,6 +46,12 @@ export default class EditList extends React.Component{
         this.setState({marked: markedAux});
         this.props.navigation.setParams({marked: this.state.marked});
     }
+    removeAll = () => {
+        StorageService.setData('todos', []).then( ()=> {
+            this.props.navigation.state.params.reloadData();
+            this.props.navigation.navigate('Home');
+        });
+    }
     render(){
         return (
             <View style={{ flex: 1, flexDirection: 'column'}}>
@@ -67,7 +70,13 @@ export default class EditList extends React.Component{
                         />
                     ))
                 }
-                </ScrollView>            
+                </ScrollView>    
+                {   this.state.marked.indexOf(true) == -1 &&
+                    <Button 
+                    title="Delete all"
+                    onPress={this.removeAll}/>       
+
+                } 
             </View>
         );
     }

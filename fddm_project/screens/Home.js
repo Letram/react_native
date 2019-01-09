@@ -1,8 +1,10 @@
 import React from 'react';
-import {AsyncStorage, Text, View, ScrollView, TextInput, TouchableOpacity} from 'react-native';
+import {AsyncStorage, Text, View, ScrollView, TextInput, TouchableOpacity, StyleSheet} from 'react-native';
 import {Button, List, ListItem, Card, SearchBar} from 'react-native-elements';
 import {NavigationActions, NavigationEvents} from 'react-navigation';
+import ActionButton from 'react-native-action-button';
 import Modal from 'react-native-modal';
+import Icon from 'react-native-vector-icons/Ionicons';
 import Details from './Details';
 import Edit from './Edit';
 import EditList from './EditList';
@@ -94,18 +96,14 @@ export default class Home extends React.Component{
                     ))
                 }
                 </ScrollView>
-                <Button
-                    title="Go to EditList"
-                    onPress={() => navigate('EditList', {todos: this.state.todos, reloadData: this.reloadData.bind(this)})}
-                />
-                <Button
-                    title="Go to Themes"
-                    onPress={() => navigate('Themes')}
-                /> 
-                <Button
-                    title="Add Todo"
-                    onPress={this.toggleModal}
-                /> 
+                <ActionButton buttonColor="rgba(231,76,60,1)">
+                    <ActionButton.Item buttonColor='#9b59b6' title="New Todo" onPress={this.toggleModal}>
+                        <Icon name="md-create" style={styles.actionButtonIcon} />
+                    </ActionButton.Item>
+                    <ActionButton.Item buttonColor='#1abc9c' title="Edit all Todos" onPress={() => navigate('EditList', {todos: this.state.todos, reloadData: this.reloadData.bind(this)})}>
+                        <Icon name="md-done-all" style={styles.actionButtonIcon} />
+                    </ActionButton.Item>
+                </ActionButton>
                 <Modal isVisible={this.state.isModalVisible}>
                     <View style={{
                             flex: 1,
@@ -136,5 +134,12 @@ export default class Home extends React.Component{
                 </Modal>
             </View>
         );
-      }  
+      } 
 }
+const styles = StyleSheet.create({
+    actionButtonIcon: {
+      fontSize: 20,
+      height: 22,
+      color: 'white',
+    },
+  }); 

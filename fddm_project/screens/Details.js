@@ -2,11 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Button } from 'react-native';
 import {Text, Header} from 'react-native-elements';
 import {NavigationActions} from 'react-navigation';
-
-import Home from './Home';
 import Edit from './Edit';
-import EditList from './EditList';
-import Themes from './Themes';
 
 export default class Details extends React.Component{
     constructor(props){
