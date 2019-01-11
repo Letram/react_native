@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, ScrollView} from 'react-native';
 import {ListItem, CheckBox} from 'react-native-elements';
-import Home from './Home';
 import * as StorageService from '../services/StorageService';
 import {NavigationActions} from 'react-navigation';
 
@@ -28,7 +27,6 @@ export default class EditList extends React.Component{
                         });
                         StorageService.setData('todos', unmarkedTodos).then(()=>{
                             navigation.state.params.reloadData();
-                            navigation.navigate('Home');
                         });
                     }}
                 />
@@ -49,7 +47,6 @@ export default class EditList extends React.Component{
     removeAll = () => {
         StorageService.setData('todos', []).then( ()=> {
             this.props.navigation.state.params.reloadData();
-            this.props.navigation.navigate('Home');
         });
     }
     render(){

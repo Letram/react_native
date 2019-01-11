@@ -10,7 +10,7 @@ import Edit from './Edit';
 import EditList from './EditList';
 import Themes from './Themes';
 import * as StorageService from '../services/StorageService';
-
+import * as ThemeService from '../services/ThemeService';
 export default class Home extends React.Component{
     constructor(props){
         super(props);
@@ -20,23 +20,32 @@ export default class Home extends React.Component{
             title: '',
             body: '',
             search: '',
-            arrayHolder: []
+            arrayHolder: [],
+            theme: ThemeService.getSelected()
         };
         StorageService.getData('todos').then(todos => {
             this.setState({'todos': todos, 'arrayHolder': todos});
         });
+        this.willFocus = this.props.navigation.addListener(
+            'willFocus',
+            payload => {
+              this.forceUpdate();
+            }
+          );
     }
-    
     static navigationOptions = {
         title: 'Home',
     };
-      
+    setTodos = todos => {
+        this.setState({todos});
+    }
     reloadData(){
         StorageService.getData('todos')
-        .then(todos => {
-            this.setState({'todos': todos});
-        })
-        .catch(e => console.log(e));
+            .then((todos) => this.setState({todos}))
+            .catch(e => console.log(e));
+    }
+    reloadTheme(){
+        this.setState({theme: ThemeService.getSelected()});
     }
     toggleModal = () =>{
         this.setState({isModalVisible: !this.state.isModalVisible});
@@ -64,23 +73,19 @@ export default class Home extends React.Component{
         });    
         this.setState({ todos: newData });  
     };
-    
-    componentWillMount(){
-        this.props.navigation.addListener('didFocus', this.reloadData);
-    }
 
     render() {
         const { navigate } = this.props.navigation;
-
         return (
-            <View style={{ flex: 1, flexDirection: 'column' }}>   
+            <View style={{ flex: 1, flexDirection: 'column'}}>   
             <SearchBar
                 lightTheme
                 onChangeText={(text)=>{this.searchFilterFunction(text)}}
-                onClear={()=>{}}
+                containerStyle = {this.state.theme.styles.default}
+                placeholderTextColor = {this.state.theme.styles.placeholder}
                 placeholder='Type Here...' 
             />
-                <ScrollView>
+                <ScrollView style={this.state.theme.styles.todo}>
                 {
                     this.state.todos
                     .map((todo, index) => (
@@ -90,7 +95,7 @@ export default class Home extends React.Component{
                             onPress={() => (navigate('Details', {
                                 title: todo.title,
                                 body: todo.body,
-                                reloadData: this.reloadData.bind(this)
+                                reloadData: this.reloadData.bind(this),
                               }))}
                         />
                     ))
@@ -100,7 +105,10 @@ export default class Home extends React.Component{
                     <ActionButton.Item buttonColor='#9b59b6' title="New Todo" onPress={this.toggleModal}>
                         <Icon name="md-create" style={styles.actionButtonIcon} />
                     </ActionButton.Item>
-                    <ActionButton.Item buttonColor='#1abc9c' title="Edit all Todos" onPress={() => navigate('EditList', {todos: this.state.todos, reloadData: this.reloadData.bind(this)})}>
+                    <ActionButton.Item buttonColor='#1abc9c' title="Edit List" onPress={() => navigate('EditList', {todos: this.state.todos, reloadData: this.reloadData.bind(this)})}>
+                        <Icon name="md-done-all" style={styles.actionButtonIcon} />
+                    </ActionButton.Item>
+                    <ActionButton.Item buttonColor='#1abc9c' title="Settings" onPress={() => navigate('Themes', {reloadTheme: this.reloadTheme.bind(this)})}>
                         <Icon name="md-done-all" style={styles.actionButtonIcon} />
                     </ActionButton.Item>
                 </ActionButton>
@@ -113,7 +121,7 @@ export default class Home extends React.Component{
                             backgroundColor: 'white',
                             width: 300,
                             height: 450}}>
-                        <Text>Add todo</Text>
+                        <Text style={this.state.theme.header}>Add todo</Text>
                         <TextInput
                         onChangeText={(text) => this.setState({title: text})}
                         value={this.state.title}

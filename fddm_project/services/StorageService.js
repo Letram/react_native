@@ -7,16 +7,15 @@ export const getData = async(value) =>{
         if (result !== null) {
           // We have data!!
             parsed = JSON.parse(result);
-            console.log(parsed);
             return parsed;
         }
+        return "";
        } catch (error) {
          // Error retrieving data
          console.log(error);
        }
 }
 export const setData = async(name, value) =>{
-    console.log({name, value});
     try {
         AsyncStorage.setItem(name, JSON.stringify(value));
     } catch (error) {

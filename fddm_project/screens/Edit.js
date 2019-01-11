@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
 import * as StorageService from '../services/StorageService';
-import Details from './Details';
 
 export default class Edit extends React.Component{
     constructor(props){
@@ -28,7 +27,7 @@ export default class Edit extends React.Component{
                     };
                     StorageService.updateData({title: navigation.getParam('title'), body: navigation.getParam('body')}, 'todos', newTodo).then( ()=> {
                         navigation.state.params.reloadData();
-                        navigation.navigate('Details', {title: newTodo.title , body: newTodo.body})
+                        navigation.navigate('Details');
                     });
                 }}
                 />
