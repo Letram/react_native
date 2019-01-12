@@ -91,7 +91,6 @@ export default class Home extends React.Component{
                             onPress={() => (navigate('Details', {
                                 title: todo.title,
                                 body: todo.body,
-                                reloadData: this.reloadData.bind(this),
                               }))}
                         />
                     ))
@@ -101,11 +100,11 @@ export default class Home extends React.Component{
                     <ActionButton.Item buttonColor='#9b59b6' title="New Todo" onPress={this.toggleModal}>
                         <Icon name="md-create" style={styles.actionButtonIcon} />
                     </ActionButton.Item>
-                    <ActionButton.Item buttonColor='#1abc9c' title="Edit List" onPress={() => navigate('EditList', {todos: this.state.todos, reloadData: this.reloadData.bind(this)})}>
+                    <ActionButton.Item buttonColor='#1abc9c' title="Edit List" onPress={() => navigate('EditList', {todos: this.state.todos})}>
                         <Icon name="md-done-all" style={styles.actionButtonIcon} />
                     </ActionButton.Item>
-                    <ActionButton.Item buttonColor='#1abc9c' title="Settings" onPress={() => navigate('Themes', {reloadTheme: this.reloadTheme.bind(this)})}>
-                        <Icon name="md-done-all" style={styles.actionButtonIcon} />
+                    <ActionButton.Item buttonColor='#b3f3f4' title="Settings" onPress={() => navigate('Themes')}>
+                        <Icon name="md-settings" style={styles.actionButtonIcon} />
                     </ActionButton.Item>
                 </ActionButton>
                 <Modal isVisible={this.state.isModalVisible}>

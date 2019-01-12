@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
 import * as StorageService from '../services/StorageService';
 import * as ThemeService from '../services/ThemeService';
+import Events from '../services/EventService';
 export default class Edit extends React.Component{
     constructor(props){
         super(props);
@@ -27,8 +28,8 @@ export default class Edit extends React.Component{
                         body: navigation.getParam('bodyAux'),
                     };
                     StorageService.updateData({title: navigation.getParam('title'), body: navigation.getParam('body')}, 'todos', newTodo).then( ()=> {
-                        navigation.state.params.reloadData();
-                        navigation.navigate('Details');
+                        Events.publish('ReloadData');
+                        navigation.navigate('Details', {title: navigation.getParam('titleAux'), body: navigation.getParam('bodyAux')});
                     });
                 }}
                 />

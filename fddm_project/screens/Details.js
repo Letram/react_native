@@ -21,7 +21,6 @@ export default class Details extends React.Component{
                         navigation.navigate('Edit', {
                             title: navigation.getParam('title', 'No identificado el titulo'),
                             body: navigation.getParam('body', 'No identificado el titulo'),
-                            reloadData: navigation.getParam('reloadData')
                         })
                     }}
                 />
