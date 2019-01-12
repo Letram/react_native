@@ -5,12 +5,9 @@ import {NavigationActions, NavigationEvents} from 'react-navigation';
 import ActionButton from 'react-native-action-button';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Details from './Details';
-import Edit from './Edit';
-import EditList from './EditList';
-import Themes from './Themes';
 import * as StorageService from '../services/StorageService';
 import * as ThemeService from '../services/ThemeService';
+import Events from '../services/EventService';
 export default class Home extends React.Component{
     constructor(props){
         super(props);
@@ -26,19 +23,11 @@ export default class Home extends React.Component{
         StorageService.getData('todos').then(todos => {
             this.setState({'todos': todos, 'arrayHolder': todos});
         });
-        this.willFocus = this.props.navigation.addListener(
-            'willFocus',
-            payload => {
-              this.forceUpdate();
-            }
-          );
     }
     static navigationOptions = {
         title: 'Home',
     };
-    setTodos = todos => {
-        this.setState({todos});
-    }
+
     reloadData(){
         StorageService.getData('todos')
             .then((todos) => this.setState({todos}))
@@ -74,6 +63,13 @@ export default class Home extends React.Component{
         this.setState({ todos: newData });  
     };
 
+    componentDidMount(){
+        this.events = [
+            Events.subscribe('ReloadData', () => this.reloadData()), 
+            Events.subscribe('ReloadTheme', () => this.reloadTheme())
+        ];
+    }
+
     render() {
         const { navigate } = this.props.navigation;
         return (
@@ -82,7 +78,7 @@ export default class Home extends React.Component{
                 lightTheme
                 onChangeText={(text)=>{this.searchFilterFunction(text)}}
                 containerStyle = {this.state.theme.styles.default}
-                placeholderTextColor = {this.state.theme.styles.placeholder}
+                placeholderTextColor = {this.state.theme.styles.placeholder.color}
                 placeholder='Type Here...' 
             />
                 <ScrollView style={this.state.theme.styles.todo}>

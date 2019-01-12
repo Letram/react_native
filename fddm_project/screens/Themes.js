@@ -3,7 +3,7 @@ import { StyleSheet, View, Button, ScrollView } from 'react-native';
 import {Text, List, CheckBox} from 'react-native-elements';
 import * as StorageService from '../services/StorageService';
 import * as ThemeService from '../services/ThemeService';
-
+import Events from '../services/EventService';
 class Themes extends React.Component {
   constructor(props) {
     super(props);
@@ -22,7 +22,7 @@ class Themes extends React.Component {
   swap = (name) => {
     ThemeService.swap(name);
     this.setState({selected: ThemeService.getSelected()});
-    this.props.navigation.state.params.reloadTheme();
+    Events.publish('ReloadTheme');
   }
   render() {
     return (

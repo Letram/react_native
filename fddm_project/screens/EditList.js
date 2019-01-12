@@ -3,13 +3,14 @@ import { StyleSheet, Text, View, Button, ScrollView} from 'react-native';
 import {ListItem, CheckBox} from 'react-native-elements';
 import * as StorageService from '../services/StorageService';
 import {NavigationActions} from 'react-navigation';
-
+import * as ThemeService from '../services/ThemeService'; 
 export default class EditList extends React.Component{
     constructor(props){
         super(props);
         this.state = {
             todos: [],
-            marked: []
+            marked: [],
+            theme: ThemeService.getSelected()
         };
     }
     static navigationOptions = ({ navigation }) => {
@@ -52,7 +53,7 @@ export default class EditList extends React.Component{
     render(){
         return (
             <View style={{ flex: 1, flexDirection: 'column'}}>
-                <ScrollView>
+                <ScrollView style={this.state.theme.styles.todo}>
                 {
                     this.state.todos.map((todo, index) => (
                         <ListItem
@@ -72,7 +73,6 @@ export default class EditList extends React.Component{
                     <Button 
                     title="Delete all"
                     onPress={this.removeAll}/>       
-
                 } 
             </View>
         );

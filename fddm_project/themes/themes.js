@@ -39,6 +39,11 @@ const alt = StyleSheet.create({
     },
     placeholder: {
       color: 'white',
+    },
+    label: {
+      margin: 10,
+      fontSize: 23,
+      color: '#810c41',
     }
 
   });
@@ -78,7 +83,7 @@ const def = StyleSheet.create({
     label: {
       margin: 10,
       fontSize: 23,
-      color: '#FFF',
+      color: '#f68e2c',
     },
     footer: {
       fontSize: 30,
