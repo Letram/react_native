@@ -77,17 +77,19 @@ export default class Home extends React.Component{
             <SearchBar
                 lightTheme
                 onChangeText={(text)=>{this.searchFilterFunction(text)}}
-                containerStyle = {this.state.theme.styles.default}
-                placeholderTextColor = {this.state.theme.styles.placeholder.color}
+                containerStyle = {{backgroundColor: this.state.theme.styles.primary.color}}
+                placeholderTextColor = {this.state.theme.styles.text.color}
                 placeholder='Type Here...' 
             />
-                <ScrollView style={this.state.theme.styles.todo}>
+                <ScrollView style={{backgroundColor: this.state.theme.styles.primary.color}}>
                 {
                     this.state.todos
                     .map((todo, index) => (
                         <ListItem
                             key={index}
                             title={todo.title}
+                            titleStyle={{color: this.state.theme.styles.text.color}}
+                            containerStyle={{backgroundColor: this.state.theme.styles.secondary.color}}
                             onPress={() => (navigate('Details', {
                                 title: todo.title,
                                 body: todo.body,
@@ -107,31 +109,32 @@ export default class Home extends React.Component{
                         <Icon name="md-settings" style={styles.actionButtonIcon} />
                     </ActionButton.Item>
                 </ActionButton>
-                <Modal isVisible={this.state.isModalVisible}>
-                    <View style={{
-                            flex: 1,
-                            flexDirection: 'column',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            backgroundColor: 'white',
-                            width: 300,
-                            height: 450}}>
-                        <Text style={this.state.theme.header}>Add todo</Text>
+                <Modal 
+                onBackdropPress={() => this.setState({ isModalVisible: false })}
+                isVisible={this.state.isModalVisible}>
+                    <View style={this.state.theme.styles.container}>
+                        <View style={{justifyContent:"flex-start"}}>
+                            <Text style={this.state.theme.styles.header}>Add Todo</Text>
+                        </View>
                         <TextInput
                         onChangeText={(text) => this.setState({title: text})}
+                        style={this.state.theme.styles.text}
                         value={this.state.title}
                         placeholder="Title..."></TextInput>
                         <TextInput
                         onChangeText={(text) => this.setState({body: text})}
+                        style={{color: this.state.theme.styles.text.color}}
                         value={this.state.body}
                         placeholder="Body..."></TextInput>
-                        <Button
-                        title="Add Todo"
-                        onPress={this.addTodo}
-                        /> 
                         <TouchableOpacity
+                        style={this.state.theme.styles.button}
+                        onPress={this.addTodo}>
+                            <Text style={this.state.theme.styles.light}>Add Todo</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                        style={this.state.theme.styles.dismiss}
                         onPress={this.toggleModal}>
-                            <Text>Dismiss</Text>
+                            <Text style={this.state.theme.styles.dark}>Dismiss</Text>
                         </TouchableOpacity>
                     </View>
                 </Modal>
@@ -145,4 +148,12 @@ const styles = StyleSheet.create({
       height: 22,
       color: 'white',
     },
+    modal: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        width: 300,
+        height: 450}
   }); 

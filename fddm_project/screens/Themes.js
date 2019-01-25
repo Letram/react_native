@@ -26,17 +26,16 @@ class Themes extends React.Component {
   }
   render() {
     return (
-      <View style={{ flex: 1, flexDirection: 'column'} }>
+      <View style={{ flex: 1, flexDirection: 'column', backgroundColor: this.state.selected.styles.primary.color}}>
         <Text style={this.state.selected.styles.header}>
-          Themes
+          Available themes:
         </Text>
-        <ScrollView >
-          <List containerStyle={{ marginBottom: 20}}>
+          <List containerStyle={{ marginBottom: 20, backgroundColor: this.state.selected.styles.dark.color}}>
           {
               this.state.themes.map((theme) => (
                 <CheckBox
-                  textStyle = {theme.styles.content}
-                  containerStyle = {theme.styles.container}
+                  textStyle = {theme.styles.text.color}
+                  containerStyle={{backgroundColor: theme.styles.secondary.color}}
                   title={theme.name}
                   onPress={() => this.swap(theme.name)}
                   checked={this.state.selected.name == theme.name}
@@ -45,7 +44,6 @@ class Themes extends React.Component {
               ))
             }
           </List>
-        </ScrollView>
       </View>
     );
   }

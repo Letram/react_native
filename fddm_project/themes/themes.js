@@ -2,24 +2,38 @@ import react from 'react';
 import {StyleSheet} from 'react-native';
 
 const alt = StyleSheet.create({
-    header: {
-      fontSize: 35,
-      color: 'red',
-    },
+  header: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    justifyContent: "flex-start",
+  },
     content: {
       fontSize: 25,
       color: 'red',
     },
     button: {
-      flex: 1,
       alignItems: 'center',
-      backgroundColor: 'red',
+      backgroundColor: '#0f90b6',
       paddingHorizontal: 40,
       borderRadius: 25,
-      width: 300,
+      width: 150,
       height: 50,
       overflow: 'hidden',
       margin: 10,
+      justifyContent: "center",
+
+    },
+    dismiss: {
+      alignItems: 'center',
+      backgroundColor: '#e0e1e1',
+      paddingHorizontal: 40,
+      borderRadius: 25,
+      width: 150,
+      height: 50,
+      overflow: 'hidden',
+      margin: 10,
+      justifyContent: "center",
+
     },
     footer: {
       color: 'red',
@@ -44,8 +58,12 @@ const alt = StyleSheet.create({
       margin: 10,
       fontSize: 23,
       color: '#810c41',
-    }
-
+    },
+    light: {color: '#e0e1e1'},
+    dark: {color: '#0f90b6'},
+    primary: {color: '#bbc3c4'},
+    secondary: {color: '#98a1a3'},
+    text: {color: '#0e4a5a'}
   });
 const def = StyleSheet.create({
     container: {
@@ -57,7 +75,7 @@ const def = StyleSheet.create({
     header: {
       fontSize: 30,
       fontWeight: 'bold',
-      margin: 10,
+      justifyContent: "flex-start",
     },
     body: {
       margin: 10,
@@ -70,15 +88,26 @@ const def = StyleSheet.create({
       fontWeight: 'bold',
     },
     button: {
-      flex: 1,
       alignItems: 'center',
-      backgroundColor: '#4DC7A4',
+      backgroundColor: '#673a59',
       paddingHorizontal: 40,
       borderRadius: 25,
-      width: 300,
+      width: 150,
       height: 50,
       overflow: 'hidden',
       margin: 10,
+      justifyContent: "center",
+    },
+    dismiss:{      
+      alignItems: 'center',
+      backgroundColor: '#d8cbc6',
+      paddingHorizontal: 40,
+      borderRadius: 25,
+      width: 150,
+      height: 50,
+      overflow: 'hidden',
+      margin: 10,
+      justifyContent: "center",
     },
     label: {
       margin: 10,
@@ -90,9 +119,6 @@ const def = StyleSheet.create({
       fontWeight: 'bold',
       margin: 10,
     },
-    default: {
-      backgroundColor: '#4DC7A4',
-    },
     red: {
       backgroundColor: 'red',
     },
@@ -102,8 +128,12 @@ const def = StyleSheet.create({
     },
     placeholder: {
       color: 'blue',
-    }
-
+    },
+    light: {color: '#d8cbc6'},
+    dark: {color: '#673a59'},
+    primary: {color: '#97637f'},
+    secondary: {color: '#b899a1'},
+    text: {color: '#261623'}
 });
 
-export default [{name: 'default', styles: def}, {name: 'alternative', styles: alt}];
+export default [{name: 'Amethyst', styles: def}, {name: 'Sapphire', styles: alt}];

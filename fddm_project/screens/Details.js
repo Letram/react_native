@@ -3,28 +3,17 @@ import { StyleSheet, View, Button } from 'react-native';
 import {Text, Header} from 'react-native-elements';
 import {NavigationActions} from 'react-navigation';
 import Edit from './Edit';
-
+import * as ThemeService from '../services/ThemeService'; 
+import Events from '../services/EventService';
 export default class Details extends React.Component{
     constructor(props){
         super(props);
-        this.state = {};
+        this.state = {theme: ThemeService.getSelected()};
     }
-
     static navigationOptions = ({ navigation }) => {
         return {
             headerTitle: 'Atrás',
             title: 'Details',
-            headerRight: (
-                <Button
-                    title='Edit'
-                    onPress={() => {
-                        navigation.navigate('Edit', {
-                            title: navigation.getParam('title', 'No identificado el titulo'),
-                            body: navigation.getParam('body', 'No identificado el titulo'),
-                        })
-                    }}
-                />
-          ),
         };
       };
 
@@ -33,16 +22,15 @@ export default class Details extends React.Component{
         const title = navigation.getParam('title', 'No identificado el titulo');
         const body = navigation.getParam('body', 'No identificado el cuerpo');
         return (
-            <View>
-                <View style={{ flex: 1, flexDirection: 'column' }}>
-                    <Text h3>{title}</Text>
-                    <Text>{body}</Text>
+                <View style={{ flex: 1, flexDirection: 'column', backgroundColor: this.state.theme.styles.primary.color }}>
+                    <Text h3 style={this.state.theme.styles.text}>{title}</Text>
+                    <Text style={this.state.theme.styles.text}>{body}</Text>
                     <Button
-                        title="Go to Edit"
-                        onPress={() => navigation('Edit')}
+                        title="Edit todo."
+                        color={this.state.theme.styles.dark.color}
+                        onPress={() => navigation.navigate('Edit', {title, body})}
                     />     
                 </View>   
-            </View>
         );
     }
     
